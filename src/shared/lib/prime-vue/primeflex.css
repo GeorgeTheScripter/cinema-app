@@ -1,0 +1,6 @@
+@import 'primeflex/primeflex.css';
+
+:root {
+  --border-radius: 8px;
+  --primary-color: #3b82f6;
+}
