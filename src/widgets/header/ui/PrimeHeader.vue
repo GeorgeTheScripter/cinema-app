@@ -1,6 +1,6 @@
 <template>
-  <div class="card">
-    <Menubar class="">
+  <div class="fixed w-full">
+    <Menubar>
       <template #start>
         <router-link to="/">
           <Logo />
@@ -9,16 +9,20 @@
 
       <template #end>
         <div class="flex items-center gap-4">
-          <Button v-for="item in menuItems" :key="item.title" label="Primary" severity="secondary">
-            <RouterLink
-              :to="item.route"
+          <RouterLink v-for="item in menuItems" :key="item.title" :to="item.route">
+            <Button
+              label="Primary"
+              severity="secondary"
               :class="{
                 'text-primary font-medium': isActive(item.route),
                 'text-color': !isActive(item.route),
               }"
-              >{{ item.title }}</RouterLink
+              >{{ item.title }}</Button
             >
-          </Button>
+          </RouterLink>
+
+          <Button @click="handleSignIn" v-if="!isLoggedIn">Вход</Button>
+          <Button @click="handleSignOut" v-if="isLoggedIn">Выход</Button>
         </div>
       </template>
     </Menubar>
@@ -27,11 +31,12 @@
 
 <script setup lang="ts">
 import Button from 'primevue/button';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { Menubar } from 'primevue';
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 import { useRoute } from 'vue-router';
-import Logo from './Logo.vue';
+import { getAuth, onAuthStateChanged, signOut, type Auth } from 'firebase/auth';
+import Logo from '@/shared/ui/Logo.vue';
 
 const route = useRoute();
 
@@ -61,15 +66,27 @@ const menuItems = ref<NavItem[]>([
     icon: 'pi pi-heart',
     route: '/favorites',
   },
-  {
-    title: 'Регистрация',
-    icon: 'pi pi-heart',
-    route: '/register',
-  },
-  {
-    title: 'Вход',
-    icon: 'pi pi-heart',
-    route: '/login',
-  },
 ]);
+
+const isLoggedIn = ref<boolean>(false);
+const router = useRouter();
+
+let auth: Auth;
+
+onMounted(() => {
+  auth = getAuth();
+  onAuthStateChanged(auth, (user) => {
+    isLoggedIn.value = user ? true : false;
+  });
+});
+
+const handleSignOut = () => {
+  signOut(auth).then(() => {
+    router.push('/login');
+  });
+};
+
+const handleSignIn = () => {
+  router.push('/login');
+};
 </script>
