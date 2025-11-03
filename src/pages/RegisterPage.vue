@@ -26,8 +26,8 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthFlow } from '@/features/auth/lib/auth.flow';
-import PrimeInput from '@/shared/ui/PrimeInput.vue';
+import { useAuthFlow } from '@/stores/auth.flow';
+import PrimeInput from '@/components/ui/PrimeInput.vue';
 
 import { Button } from 'primevue';
 import { ref, watch } from 'vue';

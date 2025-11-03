@@ -1,5 +1,5 @@
 import { useRouter } from 'vue-router';
-import { useAuthStore } from '../stores/auth.store';
+import { useAuthStore } from './auth.store';
 
 export const useAuthFlow = () => {
   const authStore = useAuthStore();
