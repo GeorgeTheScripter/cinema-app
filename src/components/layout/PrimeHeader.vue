@@ -1,34 +1,3 @@
-<template>
-  <div class="fixed w-full">
-    <Menubar>
-      <template #start>
-        <router-link to="/">
-          <Logo />
-        </router-link>
-      </template>
-
-      <template #end>
-        <div class="flex items-center gap-4">
-          <RouterLink v-for="item in menuItems" :key="item.title" :to="item.route">
-            <Button
-              label="Primary"
-              severity="secondary"
-              :class="{
-                'text-primary font-medium': isActive(item.route),
-                'text-color': !isActive(item.route),
-              }"
-              >{{ item.title }}</Button
-            >
-          </RouterLink>
-
-          <Button @click="handleSignIn" v-if="!isLoggedIn">Вход</Button>
-          <Button @click="handleSignOut" v-if="isLoggedIn">Выход</Button>
-        </div>
-      </template>
-    </Menubar>
-  </div>
-</template>
-
 <script setup lang="ts">
 import Button from 'primevue/button';
 import { onMounted, ref } from 'vue';
@@ -36,7 +5,7 @@ import { Menubar } from 'primevue';
 import { RouterLink, useRouter } from 'vue-router';
 import { useRoute } from 'vue-router';
 import { getAuth, onAuthStateChanged, signOut, type Auth } from 'firebase/auth';
-import Logo from '@/shared/ui/Logo.vue';
+import Logo from '@/components/ui/Logo.vue';
 
 const route = useRoute();
 
@@ -90,3 +59,34 @@ const handleSignIn = () => {
   router.push('/login');
 };
 </script>
+
+<template>
+  <div class="fixed w-full">
+    <Menubar>
+      <template #start>
+        <router-link to="/">
+          <Logo />
+        </router-link>
+      </template>
+
+      <template #end>
+        <div class="flex items-center gap-4">
+          <RouterLink v-for="item in menuItems" :key="item.title" :to="item.route">
+            <Button
+              label="Primary"
+              severity="secondary"
+              :class="{
+                'text-primary font-medium': isActive(item.route),
+                'text-color': !isActive(item.route),
+              }"
+              >{{ item.title }}</Button
+            >
+          </RouterLink>
+
+          <Button @click="handleSignIn" v-if="!isLoggedIn">Вход</Button>
+          <Button @click="handleSignOut" v-if="isLoggedIn">Выход</Button>
+        </div>
+      </template>
+    </Menubar>
+  </div>
+</template>

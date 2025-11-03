@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import PrimeHeader from '@/widgets/header/ui/PrimeHeader.vue';
+import PrimeHeader from '@/components/layout/PrimeHeader.vue';
 import { RouterView } from 'vue-router';
 </script>
 
