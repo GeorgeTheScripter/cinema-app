@@ -1,9 +1,7 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 
-import './plugins/prime-vue/primeflex.css';
 import './assets/styles/index.css';
-import 'primeicons/primeicons.css';
 
 import { initializeApp } from 'firebase/app';
 

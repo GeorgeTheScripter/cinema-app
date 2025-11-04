@@ -6,17 +6,12 @@ import { RouterLink, useRouter } from 'vue-router';
 import { useRoute } from 'vue-router';
 import { getAuth, onAuthStateChanged, signOut, type Auth } from 'firebase/auth';
 import Logo from '@/components/ui/Logo.vue';
+import type { NavItem } from '../interfaces/navigation.interface';
 
 const route = useRoute();
 
 const isActive = (menuRoute: string) => {
   return route.path === menuRoute;
-};
-
-type NavItem = {
-  title: string;
-  icon: string;
-  route: string;
 };
 
 const menuItems = ref<NavItem[]>([
