@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import PrimeHeader from '@/components/layout/PrimeHeader.vue';
+import { Header } from '@/components/layout/header';
 import { onMounted } from 'vue';
 import { RouterView } from 'vue-router';
 import { useSearchStore } from './stores/search.store';
@@ -11,7 +11,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <PrimeHeader />
+  <Header />
   <div class="my-0 mx-auto md:w-11 lg:w-9 pt-100px">
     <RouterView></RouterView>
   </div>

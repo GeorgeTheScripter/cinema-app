@@ -1,5 +1,7 @@
 @import './fonts.css';
 @import './variables.css';
+@import 'primeflex/primeflex.css';
+@import 'primeicons/primeicons.css';
 
 * {
   box-sizing: border-box;
