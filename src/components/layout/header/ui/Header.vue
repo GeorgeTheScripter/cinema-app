@@ -6,7 +6,7 @@ import { RouterLink, useRouter } from 'vue-router';
 import { useRoute } from 'vue-router';
 import { getAuth, onAuthStateChanged, signOut, type Auth } from 'firebase/auth';
 import Logo from '@/components/ui/Logo.vue';
-import type { NavItem } from '../interfaces/navigation.interface';
+import type { NavItem } from '../interfaces/Navigation.interface';
 
 const route = useRoute();
 
@@ -56,7 +56,7 @@ const handleSignIn = () => {
 </script>
 
 <template>
-  <div class="fixed w-full">
+  <div class="fixed w-full z-5">
     <Menubar>
       <template #start>
         <router-link to="/">

@@ -1,26 +1,23 @@
 <script setup lang="ts">
-import { useSearchStore } from '@/stores/search.store';
-import { getImageUrl } from '@/service/posterUtils';
-import { Card } from 'primevue';
-
-const searchStore = useSearchStore();
+import MovieSlider from '@/components/movie/MovieSlider.vue';
+import Title from '@/components/ui/Title.vue';
 </script>
 
 <template>
-  <div class="cards">
-    <Card v-for="movie in searchStore.popular" :key="movie.id" style="overflow: hidden">
-      <template #header>
-        <img alt="user header" :src="getImageUrl(movie.poster_path)" class="w-full" />
+  <div>
+    <MovieSlider>
+      <template #title>
+        <Title :level="3" color="white">Популярные</Title>
       </template>
-      <template #title>{{ movie.title }}</template>
-    </Card>
+    </MovieSlider>
   </div>
 </template>
 
 <style scoped>
 .cards {
+  margin-top: 200px;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 12px;
 }
 </style>

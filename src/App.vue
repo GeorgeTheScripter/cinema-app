@@ -2,9 +2,9 @@
 import { Header } from '@/components/layout/header';
 import { onMounted } from 'vue';
 import { RouterView } from 'vue-router';
-import { useSearchStore } from './stores/search.store';
+import { useMovieStore } from './stores/movie.store';
 
-const searchStore = useSearchStore();
+const searchStore = useMovieStore();
 onMounted(() => {
   searchStore.getPopularMovies();
 });
