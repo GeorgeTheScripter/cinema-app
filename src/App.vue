@@ -3,6 +3,7 @@ import { Header } from '@/components/layout/header';
 import { onMounted } from 'vue';
 import { RouterView } from 'vue-router';
 import { useMovieStore } from './stores/movie.store';
+import { Footer } from './components/layout/footer';
 
 const searchStore = useMovieStore();
 onMounted(() => {
@@ -15,6 +16,7 @@ onMounted(() => {
   <div class="my-0 mx-auto md:w-11 lg:w-9 pt-100px">
     <RouterView></RouterView>
   </div>
+  <Footer />
 </template>
 
 <style scoped>
