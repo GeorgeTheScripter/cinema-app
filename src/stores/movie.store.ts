@@ -1,4 +1,5 @@
 import { movieService, type Movie } from '@/service';
+import type { Period } from '@/service/interfaces/Period.type';
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 
@@ -6,6 +7,7 @@ export const useMovieStore = defineStore('movies', () => {
   const movies = ref<Movie[]>([]);
   const popularMovies = ref<Movie[]>([]);
   const upcomingMovies = ref<Movie[]>([]);
+  const trandingMovies = ref<Movie[]>([]);
 
   const loading = ref<boolean>(false);
   const error = ref<string | null>(null);
@@ -49,6 +51,19 @@ export const useMovieStore = defineStore('movies', () => {
     }
   };
 
+  const getTrendingByWeek = async (timeWindow?: Period) => {
+    loading.value = true;
+
+    try {
+      const response = await movieService.getTrendingMovies(timeWindow);
+      trandingMovies.value = response.data.results;
+    } catch (err: any) {
+      error.value = err.message || 'Не удалось загрузить tranding фильмы';
+    } finally {
+      loading.value = false;
+    }
+  };
+
   const getMovieById = async (id: number) => {
     loading.value = true;
 
@@ -72,6 +87,7 @@ export const useMovieStore = defineStore('movies', () => {
     movies,
     popularMovies,
     upcomingMovies,
+    trandingMovies,
     loading,
     error,
     currentPage,
@@ -85,6 +101,7 @@ export const useMovieStore = defineStore('movies', () => {
     // Actions
     getPopularMovies,
     getUpcomingMovies,
+    getTrendingByWeek,
     getMovieById,
     clearError,
   };

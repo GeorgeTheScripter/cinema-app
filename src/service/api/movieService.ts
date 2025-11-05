@@ -1,6 +1,7 @@
 import { tmdbClient } from './client';
 import type { Genre } from '../interfaces/Genre.interface';
 import type { MoviesResponse } from '../interfaces/MovieResponse.interface';
+import type { Period } from '../interfaces/Period.type';
 
 export const movieService = {
   // Поиск
@@ -36,7 +37,7 @@ export const movieService = {
   },
 
   // Trending (популярные за период)
-  getTrendingMovies(timeWindow: 'day' | 'week' = 'week') {
+  getTrendingMovies(timeWindow: Period = 'week') {
     return tmdbClient.get<MoviesResponse>(`/trending/movie/${timeWindow}`);
   },
 
