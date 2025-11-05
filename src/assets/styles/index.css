@@ -2,6 +2,7 @@
 @import './variables.css';
 @import 'primeflex/primeflex.css';
 @import 'primeicons/primeicons.css';
+@import 'swiper/css';
 
 * {
   box-sizing: border-box;
