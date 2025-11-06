@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { useMovieStore } from '@/stores/movie.store';
+import type { Movie } from '@/service';
 import { Slider } from '../layout/slider';
 
-const movieStore = useMovieStore();
+const { movies } = defineProps<{
+  movies: Movie[];
+}>();
 </script>
 
 <template>
   <div class="flex flex-column gap-2">
     <slot name="title"></slot>
-    <Slider :movies="movieStore.popularMovies" />
+    <Slider :movies="movies" />
   </div>
 </template>
 

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Header } from '@/components/layout/header';
-import { onMounted } from 'vue';
 import { RouterView } from 'vue-router';
 import { useMovieStore } from './stores/movie.store';
 import { Footer } from './components/layout/footer';

@@ -1,3 +1,5 @@
+import { useMovieStore } from '@/stores/movie.store';
+
 export const routes = [
   {
     path: '/:pathMatch(.*)*',
@@ -9,6 +11,12 @@ export const routes = [
     path: '/',
     name: 'home',
     component: () => import('@/pages/HomePage.vue'),
+    beforeEnter: () => {
+      const movieStore = useMovieStore();
+      movieStore.getPopularMovies(1);
+      movieStore.getUpcomingMovies(1);
+      movieStore.getTrendingByWeek();
+    },
   },
 
   {
