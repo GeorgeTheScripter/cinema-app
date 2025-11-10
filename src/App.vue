@@ -3,6 +3,7 @@ import { Header } from '@/components/layout/header';
 import { RouterView } from 'vue-router';
 import { useMovieStore } from './stores/movie.store';
 import { Footer } from './components/layout/footer';
+import { onMounted } from 'vue';
 
 const searchStore = useMovieStore();
 onMounted(() => {
