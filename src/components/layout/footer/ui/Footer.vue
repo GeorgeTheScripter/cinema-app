@@ -7,12 +7,19 @@ const developer = {
 </script>
 
 <template>
-  <footer class="flex flex-column gap-2 align-items-center py-4 mt-8 p-menubar">
-    <p>© {{ currentYear }} Cinematica. Все права защищены.</p>
+  <footer
+    class="w-full mt-20 py-8 bg-gray-900 text-center text-gray-400 text-sm border-t border-gray-700"
+  >
+    <p class="mb-1">© {{ currentYear }} Cinematica. Все права защищены.</p>
 
-    <p>
+    <p class="mt-1">
       Разработано
-      <a :href="developer.url" target="_blank" class="text-primary">{{ developer.name }}</a>
+      <a
+        :href="developer.url"
+        target="_blank"
+        class="text-blue-500 hover:text-blue-400 transition-colors font-medium"
+        >{{ developer.name }}</a
+      >
     </p>
   </footer>
 </template>

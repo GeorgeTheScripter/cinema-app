@@ -8,6 +8,7 @@ export const useMovieStore = defineStore('movies', () => {
   const popularMovies = ref<Movie[]>([]);
   const upcomingMovies = ref<Movie[]>([]);
   const trandingMovies = ref<Movie[]>([]);
+  const currentMovie = ref<Movie>();
 
   const loading = ref<boolean>(false);
   const error = ref<string | null>(null);
@@ -69,10 +70,9 @@ export const useMovieStore = defineStore('movies', () => {
 
     try {
       const response = await movieService.getMovieById(id);
-      return response.data; // Возвращаем данные фильма
+      currentMovie.value = response.data;
     } catch (err: any) {
       error.value = err.message || 'Не удалось загрузить информацию о фильме';
-      return null;
     } finally {
       loading.value = false;
     }
@@ -88,6 +88,7 @@ export const useMovieStore = defineStore('movies', () => {
     popularMovies,
     upcomingMovies,
     trandingMovies,
+    currentMovie,
     loading,
     error,
     currentPage,

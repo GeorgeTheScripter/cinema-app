@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import Button from 'primevue/button';
 import { onMounted, ref } from 'vue';
-import { Menubar } from 'primevue';
 import { RouterLink, useRouter } from 'vue-router';
 import { useRoute } from 'vue-router';
 import { getAuth, onAuthStateChanged, signOut, type Auth } from 'firebase/auth';
 import Logo from '@/components/ui/Logo.vue';
-import type { NavItem } from '../interfaces/Navigation.interface';
+import type { NavItem } from '@/components/layout/header';
+import Button from '@/components/ui/Button.vue';
+// Предполагается, что LinkButton импортирован из компонента, который вы стилизовали ранее
+import LinkButton from '@/components/ui/LinkButton.vue'; // Добавил явный импорт LinkButton
 
 const route = useRoute();
 
@@ -17,17 +18,14 @@ const isActive = (menuRoute: string) => {
 const menuItems = ref<NavItem[]>([
   {
     title: 'Главная',
-    icon: 'pi pi-home',
     route: '/',
   },
   {
     title: 'Поиск',
-    icon: 'pi pi-search',
     route: '/search',
   },
   {
     title: 'Избранное',
-    icon: 'pi pi-heart',
     route: '/favorites',
   },
 ]);
@@ -56,32 +54,30 @@ const handleSignIn = () => {
 </script>
 
 <template>
-  <div class="fixed w-full z-5">
-    <Menubar>
-      <template #start>
-        <router-link to="/">
-          <Logo />
-        </router-link>
-      </template>
+  <div class="fixed w-full z-20 bg-gray-900/80 backdrop-blur-sm border-b border-gray-700">
+    <header class="flex justify-between items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <router-link to="/">
+        <Logo />
+      </router-link>
 
-      <template #end>
-        <div class="flex items-center gap-4">
-          <RouterLink v-for="item in menuItems" :key="item.title" :to="item.route">
-            <Button
-              label="Primary"
-              severity="secondary"
-              :class="{
-                'text-primary font-medium': isActive(item.route),
-                'text-color': !isActive(item.route),
-              }"
-              >{{ item.title }}</Button
-            >
-          </RouterLink>
+      <div class="flex items-center gap-4">
+        <RouterLink v-for="item in menuItems" :key="item.title" :to="item.route">
+          <LinkButton
+            :class="{
+              'text-blue-500': isActive(item.route),
+              'text-white': !isActive(item.route),
+            }"
+            >{{ item.title }}</LinkButton
+          >
+        </RouterLink>
 
-          <Button @click="handleSignIn" v-if="!isLoggedIn">Вход</Button>
-          <Button @click="handleSignOut" v-if="isLoggedIn">Выход</Button>
-        </div>
-      </template>
-    </Menubar>
+        <Button @click="handleSignIn" v-if="!isLoggedIn" class="bg-blue-600 hover:bg-blue-700"
+          >Вход</Button
+        >
+        <Button @click="handleSignOut" v-if="isLoggedIn" class="bg-red-600 hover:bg-red-700"
+          >Выход</Button
+        >
+      </div>
+    </header>
   </div>
 </template>

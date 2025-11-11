@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import StarIcon from './StarIcon.vue';
 
 const { rating } = defineProps<{
   rating: number;
@@ -17,10 +18,10 @@ const ratingConfig = computed(() => {
 
 <template>
   <div
-    class="flex gap-1 align-items-center w-fit px-2 py-1 border-round-lg transition-all transition-duration-300 shadow-1"
+    class="flex items-center justify-center gap-1 min-w-[60px] py-1 px-2 rounded-full font-semibold text-sm"
     :class="[ratingConfig.bg, ratingConfig.text]"
   >
-    <div class="font-semibold text-sm">{{ rating.toFixed(1) }}</div>
-    <i class="pi pi-star-fill text-xs"></i>
+    <div>{{ rating.toFixed(1) }}</div>
+    <StarIcon class="w-3 h-3" />
   </div>
 </template>
