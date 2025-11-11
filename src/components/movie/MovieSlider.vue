@@ -8,7 +8,7 @@ const { movies } = defineProps<{
 </script>
 
 <template>
-  <div class="flex flex-column gap-2">
+  <div class="">
     <slot name="title"></slot>
     <Slider :movies="movies" />
   </div>

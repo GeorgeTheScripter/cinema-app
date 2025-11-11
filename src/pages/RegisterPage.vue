@@ -1,36 +1,9 @@
-<template>
-  <div class="min-h-screen flex flex-column align-items-center justify-content-center">
-    <div v-if="isLoading"><h1 class="text-center">Загрузка</h1></div>
-    <div v-else>
-      <h1 class="text-center">Создать аккаунт</h1>
-
-      <div class="flex flex-column gap-2">
-        <form class="flex flex-column gap-4 mt-4">
-          <p v-if="error" class="text-red-500 text-center">
-            {{ error }}
-          </p>
-          <div class="gap-2 flex flex-column">
-            <PrimeInput type="text" placeholder="Почта" v-model="email" />
-            <PrimeInput type="text" placeholder="Пароль" v-model="password" />
-          </div>
-
-          <Button @click="handleSubmit">Зарегистрироваться</Button>
-        </form>
-
-        <Button class="bg-indigo-600 border-0 text-white" @click="handleGoogleLogin"
-          >Войти с помощью Google</Button
-        >
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { useAuthFlow } from '@/stores/auth.flow';
-import PrimeInput from '@/components/ui/PrimeInput.vue';
 
-import { Button } from 'primevue';
+import Button from '@/components/ui/Button.vue';
 import { ref, watch } from 'vue';
+import Input from '@/components/ui/Input.vue';
 
 const password = ref<string>('');
 const email = ref<string>('');
@@ -43,3 +16,30 @@ const handleSubmit = async () => {
 
 watch([email, password], clearError);
 </script>
+
+<template>
+  <div class="min-h-screen flex items-center justify-center bg-gray-900 p-4">
+    <div v-if="isLoading" class="text-white">
+      <h1 class="text-2xl font-bold text-center">Загрузка...</h1>
+    </div>
+    <div v-else class="w-full max-w-sm p-8 bg-white rounded-xl shadow-2xl">
+      <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">Создать аккаунт</h1>
+
+      <div class="flex flex-col gap-4">
+        <form class="flex flex-col gap-4">
+          <p v-if="error" class="text-red-500 text-center text-sm font-medium">
+            {{ error }}
+          </p>
+          <div class="gap-4 flex flex-col">
+            <Input type="text" placeholder="Почта" v-model="email" />
+            <Input type="text" placeholder="Пароль" v-model="password" />
+          </div>
+
+          <Button @click="handleSubmit" class="w-full mt-2">Зарегистрироваться</Button>
+        </form>
+
+        <Button @click="handleGoogleLogin">Войти с помощью Google</Button>
+      </div>
+    </div>
+  </div>
+</template>

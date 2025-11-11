@@ -3,16 +3,7 @@ import MovieCollections from '@/components/movie/MovieCollections.vue';
 </script>
 
 <template>
-  <div>
+  <div class="pt-[100px] max-w-7xl mx-auto">
     <MovieCollections />
   </div>
 </template>
-
-<style scoped>
-.cards {
-  margin-top: 200px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 12px;
-}
-</style>

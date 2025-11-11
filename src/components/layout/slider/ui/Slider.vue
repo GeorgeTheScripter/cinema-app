@@ -1,24 +1,9 @@
-<template>
-  <div class="movies-slider">
-    <swiper
-      :slides-per-view="4"
-      :space-between="12"
-      :breakpoints="breakpoints"
-      @swiper="onSwiper"
-      @slideChange="onSlideChange"
-    >
-      <swiper-slide v-for="movie in movies" :key="movie.id">
-        <MovieCard :movie="movie" />
-      </swiper-slide>
-    </swiper>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { ref } from 'vue';
 import MovieCard from '@/components/movie/MovieCard.vue';
 import type { Movie } from '@/service';
+import { RouterLink } from 'vue-router';
 
 const { movies } = defineProps<{
   movies: Movie[];
@@ -56,6 +41,24 @@ const onSwiper = (swiper: any) => {
 
 const onSlideChange = () => {};
 </script>
+
+<template>
+  <div class="movies-slider">
+    <swiper
+      :slides-per-view="4"
+      :space-between="12"
+      :breakpoints="breakpoints"
+      @swiper="onSwiper"
+      @slideChange="onSlideChange"
+    >
+      <swiper-slide v-for="movie in movies" :key="movie.id">
+        <RouterLink :to="{ name: 'movie', params: { id: movie.id } }">
+          <MovieCard :movie="movie" />
+        </RouterLink>
+      </swiper-slide>
+    </swiper>
+  </div>
+</template>
 
 <style scoped>
 .movies-slider {
