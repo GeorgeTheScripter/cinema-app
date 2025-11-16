@@ -7,26 +7,21 @@ import { useFavoriteStore } from './stores/favorite.store';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 const favoritesStore = useFavoriteStore();
-const auth = getAuth(); // Используем getAuth() для доступа к Auth
+const auth = getAuth();
 
-// Переменная для хранения функции отписки от Auth Listener
 let authUnsubscribe: (() => void) | null = null;
 
 onMounted(() => {
-  // Подписываемся на изменения статуса авторизации
   authUnsubscribe = onAuthStateChanged(auth, (user) => {
     if (user) {
-      // 1. ПОЛЬЗОВАТЕЛЬ ВОШЕЛ: Запускаем подписку на Firestore
-      favoritesStore.startListeningToFavorites();
+      favoritesStore.startListeningToFavorites(user.uid);
     } else {
-      // 2. ПОЛЬЗОВАТЕЛЬ ВЫШЕЛ: Останавливаем подписку и очищаем данные
       favoritesStore.stopListeningToFavorites();
     }
   });
 });
 
 onUnmounted(() => {
-  // 3. Очистка ресурсов при демонтаже App.vue
   if (authUnsubscribe) {
     authUnsubscribe();
   }
@@ -36,7 +31,7 @@ onUnmounted(() => {
 
 <template>
   <Header />
-  <div class="">
+  <div>
     <RouterView></RouterView>
   </div>
   <Footer />

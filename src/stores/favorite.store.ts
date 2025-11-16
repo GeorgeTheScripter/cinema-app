@@ -1,31 +1,30 @@
-import type { Favorite } from '@/service/interfaces/Favorite.interface';
 import { arrayRemove, arrayUnion, doc, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 import { db } from '@/service/firebase/config';
+import type { Movie } from '@/service';
 
 export const useFavoriteStore = defineStore('favorites', () => {
-  const favorites = ref<Favorite[]>([]);
+  const favorites = ref<Movie[]>([]);
   const isListening = ref<boolean>(false);
   const unsubscribe = ref<(() => void) | null>(null);
 
   const userUid = computed<string | null>(() => getAuth().currentUser?.uid || null);
 
   const isFavorite = computed(() => (movieId: number): boolean => {
-    return favorites.value.some((movie) => movie.movieId === movieId);
+    return favorites.value.some((movie) => movie.id === movieId);
   });
 
-  const startListeningToFavorites = () => {
-    const uid = userUid.value;
-    if (!uid || isListening.value) return;
+  const startListeningToFavorites = (uid: string) => {
+    if (isListening.value) return;
 
     const userRef = doc(db, 'users', uid);
 
     unsubscribe.value = onSnapshot(userRef, (docSnapshot) => {
       if (docSnapshot.exists()) {
         const userData = docSnapshot.data();
-        favorites.value = (userData.favorites || []) as Favorite[];
+        favorites.value = (userData.favorites || []) as Movie[];
       } else {
         favorites.value = [];
       }
@@ -42,7 +41,7 @@ export const useFavoriteStore = defineStore('favorites', () => {
     isListening.value = false;
   };
 
-  const addFavorite = async (movieData: Favorite) => {
+  const addFavorite = async (movieData: Movie) => {
     const uid = userUid.value;
     if (!uid) {
       console.error('Необходима авторизация.');
@@ -65,8 +64,8 @@ export const useFavoriteStore = defineStore('favorites', () => {
     }
   };
 
-  const toggleFavorite = (movieData: Favorite) => {
-    if (isFavorite.value(movieData.movieId)) {
+  const toggleFavorite = (movieData: Movie) => {
+    if (isFavorite.value(movieData.id)) {
       // Для удаления нам нужен объект, идентичный тому, что был добавлен
       removeFavorite(movieData);
     } else {
@@ -74,7 +73,7 @@ export const useFavoriteStore = defineStore('favorites', () => {
     }
   };
 
-  const removeFavorite = async (movieData: Favorite) => {
+  const removeFavorite = async (movieData: Movie) => {
     const uid = userUid.value;
     if (!uid) return;
 

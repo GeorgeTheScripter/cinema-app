@@ -40,16 +40,8 @@ const isMovieFavorite = computed(() => {
   return favoritesStore.isFavorite(movie.id);
 });
 
-const favoriteData = computed(() => {
-  return {
-    movieId: movie.id,
-    title: movie.title,
-    posterUrl: movie.poster_path,
-  };
-});
-
 const handleToggleFavorite = () => {
-  favoritesStore.toggleFavorite(favoriteData.value);
+  favoritesStore.toggleFavorite(movie);
 };
 </script>
 
