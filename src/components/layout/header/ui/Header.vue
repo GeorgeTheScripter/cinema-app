@@ -2,12 +2,12 @@
 import { onMounted, ref } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
 import { useRoute } from 'vue-router';
-import { getAuth, onAuthStateChanged, signOut, type Auth } from 'firebase/auth';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 import Logo from '@/components/ui/Logo.vue';
 import type { NavItem } from '@/components/layout/header';
 import Button from '@/components/ui/Button.vue';
-// Предполагается, что LinkButton импортирован из компонента, который вы стилизовали ранее
-import LinkButton from '@/components/ui/LinkButton.vue'; // Добавил явный импорт LinkButton
+import LinkButton from '@/components/ui/LinkButton.vue';
+import { auth } from '@/service/firebase/config';
 
 const route = useRoute();
 
@@ -33,10 +33,7 @@ const menuItems = ref<NavItem[]>([
 const isLoggedIn = ref<boolean>(false);
 const router = useRouter();
 
-let auth: Auth;
-
 onMounted(() => {
-  auth = getAuth();
   onAuthStateChanged(auth, (user) => {
     isLoggedIn.value = user ? true : false;
   });
