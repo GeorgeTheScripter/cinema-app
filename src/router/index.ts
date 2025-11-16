@@ -21,16 +21,17 @@ const getCurrentUser = () => {
   });
 };
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (await getCurrentUser()) {
-      next();
+    const user = await getCurrentUser();
+
+    if (user) {
+      return true;
     } else {
-      router.push('/login');
+      return '/login';
     }
-  } else {
-    next();
   }
+  return true;
 });
 
 export default router;

@@ -26,7 +26,7 @@ watch([email, password], clearError);
       <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">Создать аккаунт</h1>
 
       <div class="flex flex-col gap-4">
-        <form class="flex flex-col gap-4">
+        <form @submit.prevent="handleSubmit" class="flex flex-col gap-4">
           <p v-if="error" class="text-red-500 text-center text-sm font-medium">
             {{ error }}
           </p>
@@ -35,7 +35,7 @@ watch([email, password], clearError);
             <Input type="text" placeholder="Пароль" v-model="password" />
           </div>
 
-          <Button @click="handleSubmit" class="w-full mt-2">Зарегистрироваться</Button>
+          <Button type="submit" class="w-full mt-2">Зарегистрироваться</Button>
         </form>
 
         <Button @click="handleGoogleLogin">Войти с помощью Google</Button>
