@@ -1,3 +1,28 @@
+<script setup lang="ts">
+import HeartButton from '@/components/ui/HeartButton.vue';
+import { getImageUrl } from '@/service';
+import { useMovieStore } from '@/stores/movie.store';
+import { onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+
+const movieStore = useMovieStore();
+
+const route = useRoute();
+
+const movieId = Array.isArray(route.params.id)
+  ? Number(route.params.id[0])
+  : Number(route.params.id);
+
+onMounted(() => {
+  if (movieId && !isNaN(movieId)) {
+    movieStore.getMovieById(movieId);
+  } else {
+    movieStore.error = 'Некорректный ID фильма.';
+    movieStore.loading = false;
+  }
+});
+</script>
+
 <template>
   <div class="pt-[120px] px-4 sm:px-6 lg:px-8">
     <div v-if="movieStore.loading" class="text-white text-center text-xl">Загрузка...</div>
@@ -14,9 +39,13 @@
         />
 
         <div class="flex flex-col pt-2 md:pt-0">
-          <h1 class="text-3xl sm:text-4xl font-bold mb-4 sm:mb-6">
-            {{ movieStore.currentMovie.title }}
-          </h1>
+          <div class="flex items-center mb-4 sm:mb-6 gap-3">
+            <HeartButton :movie="movieStore.currentMovie" />
+            <h1 class="text-3xl sm:text-4xl font-bold">
+              {{ movieStore.currentMovie.title }}
+            </h1>
+          </div>
+
           <p class="text-base sm:text-lg mb-4 sm:mb-6">
             {{ movieStore.currentMovie.overview }}
           </p>
@@ -43,28 +72,12 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { getImageUrl } from '@/service';
-import { useMovieStore } from '@/stores/movie.store';
-import { onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+<style scoped>
+.Favorite {
+  color: red;
+}
 
-const movieStore = useMovieStore();
-const route = useRoute();
-
-const movieId = Array.isArray(route.params.id)
-  ? Number(route.params.id[0])
-  : Number(route.params.id);
-
-onMounted(() => {
-  if (movieId && !isNaN(movieId)) {
-    movieStore.getMovieById(movieId);
-  } else {
-    // Здесь можно установить ошибку, если ID некорректен
-    movieStore.error = 'Некорректный ID фильма.';
-    movieStore.loading = false;
-  }
-});
-</script>
-
-<style scoped></style>
+.notFavorite {
+  color: grey;
+}
+</style>
