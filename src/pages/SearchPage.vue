@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import MovieCard from '@/components/movie/MovieCard.vue';
-import Input from '@/components/ui/Input.vue';
+import Input from '@/components/ui/SearchInput.vue';
 import { useSearchStore } from '@/stores/search.store';
 import { ref, watch } from 'vue';
 import { RouterLink } from 'vue-router';
