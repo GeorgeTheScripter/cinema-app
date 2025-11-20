@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { GenreMultiSelect } from '@/components/layout/select';
 import MovieCard from '@/components/movie/MovieCard.vue';
 import Input from '@/components/ui/SearchInput.vue';
 import { useSearchStore } from '@/stores/search.store';
@@ -27,7 +28,9 @@ watch(query, (newQuery) => {
   <div class="pt-[120px] max-w-7xl mx-auto">
     <Input v-model="query" placeholder="Поиск..." />
 
-    <div>filters</div>
+    <div>
+      <GenreMultiSelect :options="searchStore.genres" v-model="searchStore.filters.genre_ids" />
+    </div>
 
     <div class="grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       <RouterLink

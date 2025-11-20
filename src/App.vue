@@ -5,13 +5,17 @@ import { Footer } from './components/layout/footer';
 import { onMounted, onUnmounted } from 'vue';
 import { useFavoriteStore } from './stores/favorite.store';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { useSearchStore } from './stores/search.store';
 
 const favoritesStore = useFavoriteStore();
+const searchStore = useSearchStore();
 const auth = getAuth();
 
 let authUnsubscribe: (() => void) | null = null;
 
 onMounted(() => {
+  searchStore.getGenres();
+
   authUnsubscribe = onAuthStateChanged(auth, (user) => {
     if (user) {
       favoritesStore.startListeningToFavorites(user.uid);
