@@ -1,13 +1,12 @@
 import { tmdbClient } from './client';
-import type { Genre } from '../interfaces/Genre.interface';
-import type { MoviesResponse } from '../interfaces/MovieResponse.interface';
-import type { Period } from '../interfaces/Period.type';
+
+import type { Filters, Genre, MoviesResponse, Period } from '..';
 
 export const movieService = {
   // Поиск
-  searchMovies(query: string, page: number = 1) {
+  searchMovies(query: string, page: number = 1, filters?: Filters) {
     return tmdbClient.get<MoviesResponse>('/search/movie', {
-      params: { query, page },
+      params: { query, page, filters },
     });
   },
 

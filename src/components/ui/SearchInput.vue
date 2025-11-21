@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import SearchIcon from './SearchIcon.vue';
+
 const props = defineProps<{
   modelValue: string;
   placeholder: string;
@@ -18,8 +20,9 @@ const handleInput = (event: Event) => {
     <input
       @input="handleInput"
       type="text"
-      class="w-full bg-white-800 shadow-sm text-black border border-gray-300 rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:border-gray-600 placeholder-gray-400"
+      class="w-full bg-gray-800 text-white border border-gray-700 rounded-xl py-3 pl-12 pr-4 shadow-lg focus:outline-none focus:ring-2 focus:ring-gray-600 focus:border-gray-600 placeholder-gray-400"
       :placeholder="props.placeholder"
     />
+    <SearchIcon />
   </div>
 </template>
