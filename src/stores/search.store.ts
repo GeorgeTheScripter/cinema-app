@@ -1,6 +1,6 @@
 import { movieService, type Filters, type Genre, type Movie } from '@/service';
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 const MOVIES_LS_KEY = 'search_movies';
 
@@ -27,9 +27,11 @@ const saveMovies = (movies: Movie[]) => {
 };
 
 export const useSearchStore = defineStore('search', () => {
-  const movies = ref<Movie[]>(initializeMovies());
+  const allMovies = ref<Movie[]>(initializeMovies());
+
   const isLoading = ref<boolean>(false);
   const error = ref<string | null>(null);
+  const query = ref<string>('');
   const filters = ref<Filters>({
     genre_ids: [],
     country: null,
@@ -42,16 +44,16 @@ export const useSearchStore = defineStore('search', () => {
   const currentPage = ref<number>(1);
   const totalPages = ref<number>(0);
 
-  const searchingMovies = async (query: string, page: number = 1, filters?: Filters) => {
+  const searchingMovies = async () => {
     isLoading.value = true;
     error.value = null;
 
     try {
-      const response = await movieService.searchMovies(query, page, filters);
-      movies.value = response.data.results;
+      const response = await movieService.searchMovies(query.value, 1, filters.value);
+      allMovies.value = response.data.results;
       currentPage.value = response.data.page;
       totalPages.value = response.data.total_pages;
-      saveMovies(movies.value);
+      saveMovies(allMovies.value);
     } catch (err: any) {
       error.value = err.message || 'Не удалось загрузить популярные фильмы';
       console.error('Popular movies error:', err);
@@ -59,6 +61,17 @@ export const useSearchStore = defineStore('search', () => {
       isLoading.value = false;
     }
   };
+
+  const filteredMovies = computed(() => {
+    const selectedGenres = filters.value.genre_ids;
+    if (selectedGenres.length === 0) {
+      return allMovies.value;
+    }
+
+    return allMovies.value.filter((movie: Movie) => {
+      return selectedGenres.every((selectedId) => movie.genre_ids.includes(selectedId));
+    });
+  });
 
   const getGenres = async () => {
     isLoading.value = true;
@@ -76,12 +89,14 @@ export const useSearchStore = defineStore('search', () => {
   const getCountries = () => {};
 
   return {
-    movies,
+    allMovies,
+    filteredMovies,
     isLoading,
     error,
     filters,
     genres,
     countries,
+    query,
 
     searchingMovies,
     getGenres,

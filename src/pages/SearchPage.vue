@@ -1,48 +1,39 @@
 <script setup lang="ts">
 import { GenreMultiSelect } from '@/components/layout/select';
 import MovieCard from '@/components/movie/MovieCard.vue';
+import Button from '@/components/ui/Button.vue';
 import Input from '@/components/ui/SearchInput.vue';
 import { useSearchStore } from '@/stores/search.store';
-import { ref, watch } from 'vue';
 import { RouterLink } from 'vue-router';
 
-const query = ref<string>('');
 const searchStore = useSearchStore();
 
-let debounceTimeout: ReturnType<typeof setTimeout> | null = null;
-
-watch(query, (newQuery) => {
-  if (debounceTimeout) {
-    clearTimeout(debounceTimeout);
-  }
-
-  debounceTimeout = setTimeout(() => {
-    if (newQuery.length > 3) {
-      searchStore.searchingMovies(newQuery);
-    }
-  }, 500);
-});
+const handleSearch = () => {
+  searchStore.searchingMovies();
+};
 </script>
 
 <template>
-  <div class="pt-[120px] max-w-7xl mx-auto">
-    <Input v-model="query" placeholder="Поиск..." />
+  <div class="pt-[120px] max-w-7xl mx-auto flex gap-2">
+    <aside class="flex flex-col gap-2">
+      <Input v-model="searchStore.query" placeholder="Поиск..." />
+      <GenreMultiSelect :options="searchStore.genres" v-model="searchStore.filters.genre_ids" />
+      <Button @click="handleSearch">Найти</Button>
+    </aside>
 
     <div>
-      <GenreMultiSelect :options="searchStore.genres" v-model="searchStore.filters.genre_ids" />
-    </div>
+      <div class="grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
+        <RouterLink
+          v-for="movie in searchStore.filteredMovies"
+          :key="movie.id"
+          :to="{ name: 'movie', params: { id: movie.id } }"
+        >
+          <MovieCard :movie="movie" />
+        </RouterLink>
+      </div>
 
-    <div class="grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-      <RouterLink
-        v-for="movie in searchStore.movies"
-        :key="movie.id"
-        :to="{ name: 'movie', params: { id: movie.id } }"
-      >
-        <MovieCard :movie="movie" />
-      </RouterLink>
+      <div>pagination</div>
     </div>
-
-    <div>pagination</div>
   </div>
 </template>
 

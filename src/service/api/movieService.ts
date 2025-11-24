@@ -5,9 +5,17 @@ import type { Filters, Genre, MoviesResponse, Period } from '..';
 export const movieService = {
   // Поиск
   searchMovies(query: string, page: number = 1, filters?: Filters) {
-    return tmdbClient.get<MoviesResponse>('/search/movie', {
-      params: { query, page, filters },
-    });
+    if (query && query.length > 0) {
+      return tmdbClient.get<MoviesResponse>('/search/movie', {
+        params: {
+          query,
+          page,
+          primary_release_year: filters?.year,
+        },
+      });
+    }
+
+    return this.getPopularMovies(page);
   },
 
   // Популярные и trending фильмы
