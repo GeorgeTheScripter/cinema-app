@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Genre } from '@/service';
+import { useSearchStore } from '@/stores/search.store';
 import { ref } from 'vue';
 
 const props = defineProps<{
@@ -7,12 +8,15 @@ const props = defineProps<{
   modelValue: number[];
 }>();
 
+const searchStore = useSearchStore();
+
 const isOpen = ref<boolean>(false);
 
 const emit = defineEmits<{ (e: 'update:modelValue', value: number[]): void }>();
 
 const toggleOption = (id: number) => {
   const newSelectedId = [...props.modelValue];
+  searchStore.searchingMovies();
 
   if (newSelectedId.includes(id)) {
     const idx = newSelectedId.indexOf(id);

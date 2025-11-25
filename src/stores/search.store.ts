@@ -49,7 +49,11 @@ export const useSearchStore = defineStore('search', () => {
     error.value = null;
 
     try {
-      const response = await movieService.searchMovies(query.value, 1, filters.value);
+      const response = await movieService.searchMovies(
+        query.value,
+        currentPage.value,
+        filters.value,
+      );
       allMovies.value = response.data.results;
       currentPage.value = response.data.page;
       totalPages.value = response.data.total_pages;
@@ -97,6 +101,8 @@ export const useSearchStore = defineStore('search', () => {
     genres,
     countries,
     query,
+    currentPage,
+    totalPages,
 
     searchingMovies,
     getGenres,

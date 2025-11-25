@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { getImageUrl, type Movie } from '@/service';
+import defaultImage from '@/assets/images/not-found-img.jpg';
 import Rating from '../ui/Rating.vue';
 
 const { movie } = defineProps<{
@@ -8,7 +9,7 @@ const { movie } = defineProps<{
 
 const handleImageError = (event: Event) => {
   const target = event.target as HTMLImageElement;
-  target.src = '/placeholder-movie.jpg';
+  target.src = defaultImage;
 };
 </script>
 
