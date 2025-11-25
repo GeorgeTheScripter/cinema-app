@@ -5,12 +5,22 @@ import type { Filters, Genre, MoviesResponse, Period } from '..';
 export const movieService = {
   // Поиск
   searchMovies(query: string, page: number = 1, filters?: Filters) {
+    if (filters?.genre_ids && filters.genre_ids.length > 0) {
+      return tmdbClient.get<MoviesResponse>('discover/movie', {
+        params: {
+          page,
+          with_genres: filters.genre_ids.join(','),
+          query,
+        },
+      });
+    }
+
     if (query && query.length > 0) {
       return tmdbClient.get<MoviesResponse>('/search/movie', {
         params: {
           query,
           page,
-          primary_release_year: filters?.year,
+          primary_release_year: filters?.year ? Number(filters.year) : undefined,
         },
       });
     }
