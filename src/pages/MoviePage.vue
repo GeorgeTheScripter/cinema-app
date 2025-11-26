@@ -52,8 +52,17 @@ onMounted(() => {
 
           <div class="space-y-3 text-sm sm:text-base">
             <p>
+              <strong class="text-gray-400">Жанр:</strong>
+              <span
+                class="ml-2 text-white font-bold"
+                v-for="genre in movieStore.currentMovie.genres"
+                :key="genre.id"
+                >{{ genre.name }}</span
+              >
+            </p>
+            <p>
               <strong class="text-gray-400">Год выпуска:</strong>
-              <span class="ml-2">{{
+              <span class="ml-2 font-bold">{{
                 new Date(movieStore.currentMovie.release_date).getFullYear()
               }}</span>
             </p>
