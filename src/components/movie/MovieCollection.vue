@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Movie } from '@/service';
-import { Slider } from '../layout/slider';
+import { MovieSlider } from '@/components/layout/slider';
 
 const { movies } = defineProps<{
   movies: Movie[];
@@ -10,7 +10,7 @@ const { movies } = defineProps<{
 <template>
   <div class="">
     <slot name="title"></slot>
-    <Slider :movies="movies" />
+    <MovieSlider :movies="movies" />
   </div>
 </template>
 

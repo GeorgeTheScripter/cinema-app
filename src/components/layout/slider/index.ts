@@ -1,3 +1,3 @@
-import Slider from './ui/Slider.vue';
+import MovieSlider from './ui/MovieSlider.vue';
 
-export { Slider };
+export { MovieSlider };
