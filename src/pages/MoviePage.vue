@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import HeartButton from '@/components/ui/HeartButton.vue';
+import Title from '@/components/ui/Title.vue';
 import { getImageUrl } from '@/service';
 import { useMovieStore } from '@/stores/movie.store';
 import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import ActorSlider from '@/components/layout/slider/ui/ActorSlider.vue';
 
 const movieStore = useMovieStore();
 
@@ -74,6 +76,12 @@ onMounted(() => {
             </p>
           </div>
         </div>
+      </div>
+
+      <div class="mt-16">
+        <Title :level="3" color="white">Актеры</Title>
+
+        <ActorSlider :actors="movieStore.currentMovie.credits.cast" class="mt-3" />
       </div>
     </div>
 

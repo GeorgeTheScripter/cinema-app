@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useMovieStore } from '@/stores/movie.store';
-import MovieSlider from './MovieSlider.vue';
 import Title from '../ui/Title.vue';
 import { computed } from 'vue';
+import MovieCollection from '@/components/movie/MovieCollection.vue';
 
 const movieStore = useMovieStore();
 
@@ -29,10 +29,10 @@ const collection = computed(() => {
 
 <template>
   <div class="flex flex-col gap-8">
-    <MovieSlider v-for="movies in collection" :key="movies.id" :movies="movies.movies">
+    <MovieCollection v-for="movies in collection" :key="movies.id" :movies="movies.movies">
       <template #title>
         <Title :level="3" color="white">{{ movies.title }}</Title>
       </template>
-    </MovieSlider>
+    </MovieCollection>
   </div>
 </template>

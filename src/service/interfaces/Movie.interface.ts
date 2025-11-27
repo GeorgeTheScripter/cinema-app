@@ -1,3 +1,4 @@
+import type { Actor } from './Actor.interface';
 import type { Genre } from './Genre.interface';
 
 export interface Movie {
@@ -10,4 +11,7 @@ export interface Movie {
   vote_average: number;
   genre_ids: number[];
   genres: Genre[];
+  credits: {
+    cast: Actor[];
+  };
 }
