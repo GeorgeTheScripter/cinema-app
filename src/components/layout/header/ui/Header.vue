@@ -1,39 +1,15 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { RouterLink, useRouter } from 'vue-router';
-import { useRoute } from 'vue-router';
+import { onMounted, ref, watch } from 'vue';
+import { RouterLink, useRoute, useRouter } from 'vue-router';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import Logo from '@/components/ui/Logo.vue';
-import type { NavItem } from '@/components/layout/header';
 import Button from '@/components/ui/Button.vue';
-import LinkButton from '@/components/ui/LinkButton.vue';
 import { auth } from '@/service/firebase/config';
 import BurgerButton from '@/components/ui/BurgerButton.vue';
-
-const route = useRoute();
-
-const isActive = (menuRoute: string) => {
-  return route.path === menuRoute;
-};
-
-const menuItems = ref<NavItem[]>([
-  {
-    title: 'Главная',
-    route: '/',
-  },
-  {
-    title: 'Поиск',
-    route: '/search',
-  },
-  {
-    title: 'Избранное',
-    route: '/favorites',
-  },
-]);
+import LinkItems from './LinkItems.vue';
+import BurgerMenu from './BurgerMenu.vue';
 
 const isLoggedIn = ref<boolean>(false);
-const router = useRouter();
-const isOpen = ref<boolean>(true);
 
 onMounted(() => {
   onAuthStateChanged(auth, (user) => {
@@ -41,34 +17,41 @@ onMounted(() => {
   });
 });
 
+const router = useRouter();
+const isOpen = ref<boolean>(false);
+
 const handleSignOut = () => {
   signOut(auth).then(() => {
     router.push('/login');
   });
+  isOpen.value = false;
 };
 
 const handleSignIn = () => {
   router.push('/login');
+  isOpen.value = false;
 };
+
+const route = useRoute();
+
+watch(route, () => {
+  isOpen.value = false;
+});
 </script>
 
 <template>
   <div class="fixed w-full z-20 bg-gray-900/80 backdrop-blur-sm border-b border-gray-700">
-    <header class="flex justify-between items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <header
+      class="flex justify-between text-white items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4"
+    >
       <router-link to="/">
         <Logo />
       </router-link>
 
-      <div class="hidden sm:flex items-center gap-4">
-        <RouterLink v-for="item in menuItems" :key="item.title" :to="item.route">
-          <LinkButton
-            :class="{
-              'text-blue-500': isActive(item.route),
-              'text-white': !isActive(item.route),
-            }"
-            >{{ item.title }}</LinkButton
-          >
-        </RouterLink>
+      <div class="hidden sm:flex items-center gap-8">
+        <div class="flex gap-6">
+          <LinkItems />
+        </div>
 
         <Button @click="handleSignIn" v-if="!isLoggedIn" class="bg-blue-600 hover:bg-blue-700"
           >Вход</Button
@@ -78,9 +61,15 @@ const handleSignIn = () => {
         >
       </div>
 
-      <BurgerButton v-model="isOpen" />
+      <BurgerButton v-model="isOpen" class="sm:hidden" />
     </header>
 
-    <nav v-if="isOpen">burger</nav>
+    <BurgerMenu
+      v-if="isOpen"
+      :isLoggedIn="isLoggedIn"
+      class="sm:hidden"
+      @signIn="handleSignIn"
+      @signOut="handleSignOut"
+    />
   </div>
 </template>
