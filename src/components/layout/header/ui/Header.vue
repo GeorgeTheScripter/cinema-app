@@ -8,6 +8,7 @@ import type { NavItem } from '@/components/layout/header';
 import Button from '@/components/ui/Button.vue';
 import LinkButton from '@/components/ui/LinkButton.vue';
 import { auth } from '@/service/firebase/config';
+import BurgerButton from '@/components/ui/BurgerButton.vue';
 
 const route = useRoute();
 
@@ -32,6 +33,7 @@ const menuItems = ref<NavItem[]>([
 
 const isLoggedIn = ref<boolean>(false);
 const router = useRouter();
+const isOpen = ref<boolean>(true);
 
 onMounted(() => {
   onAuthStateChanged(auth, (user) => {
@@ -57,7 +59,7 @@ const handleSignIn = () => {
         <Logo />
       </router-link>
 
-      <div class="flex items-center gap-4">
+      <div class="hidden sm:flex items-center gap-4">
         <RouterLink v-for="item in menuItems" :key="item.title" :to="item.route">
           <LinkButton
             :class="{
@@ -75,6 +77,10 @@ const handleSignIn = () => {
           >Выход</Button
         >
       </div>
+
+      <BurgerButton v-model="isOpen" />
     </header>
+
+    <nav v-if="isOpen">burger</nav>
   </div>
 </template>
