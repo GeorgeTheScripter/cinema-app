@@ -49,7 +49,7 @@ watch(route, () => {
       </router-link>
 
       <div class="hidden sm:flex items-center gap-8">
-        <div class="flex gap-6">
+        <div class="flex gap-3">
           <LinkItems />
         </div>
 
@@ -64,12 +64,21 @@ watch(route, () => {
       <BurgerButton v-model="isOpen" class="sm:hidden" />
     </header>
 
-    <BurgerMenu
-      v-if="isOpen"
-      :isLoggedIn="isLoggedIn"
-      class="sm:hidden"
-      @signIn="handleSignIn"
-      @signOut="handleSignOut"
-    />
+    <transition
+      enter-active-class="transition-all duration-300 ease-out"
+      leave-active-class="transition-all duration-200 ease-in"
+      enter-from-class="opacity-0 transform -translate-y-4 scale-95"
+      enter-to-class="opacity-100 transform translate-y-0 scale-100"
+      leave-from-class="opacity-100 transform translate-y-0 scale-100"
+      leave-to-class="opacity-0 transform -translate-y-4 scale-95"
+    >
+      <BurgerMenu
+        v-show="isOpen"
+        :isLoggedIn="isLoggedIn"
+        class="sm:hidden"
+        @signIn="handleSignIn"
+        @signOut="handleSignOut"
+      />
+    </transition>
   </div>
 </template>
