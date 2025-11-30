@@ -3,15 +3,17 @@ import HeartButton from '@/components/ui/HeartButton.vue';
 import Title from '@/components/ui/Title.vue';
 import { getImageUrl } from '@/service';
 import { useMovieStore } from '@/stores/movie.store';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import ActorSlider from '@/components/layout/slider/ui/ActorSlider.vue';
 import Button from '@/components/ui/Button.vue';
 import PlayIcon from '@/components/ui/PlayIcon.vue';
+import { TrailerModal } from '@/components/layout/modal';
 
 const movieStore = useMovieStore();
 
 const route = useRoute();
+const isOpen = ref<boolean>(false);
 
 const movieId = Array.isArray(route.params.id)
   ? Number(route.params.id[0])
@@ -25,6 +27,14 @@ onMounted(() => {
     movieStore.loading = false;
   }
 });
+
+const openModal = () => {
+  isOpen.value = true;
+};
+
+const closeModal = () => {
+  isOpen.value = false;
+};
 </script>
 
 <template>
@@ -43,7 +53,7 @@ onMounted(() => {
         />
 
         <div class="flex flex-col pt-2 md:pt-0">
-          <div class="flex items-center mb-4 sm:mb-6 gap-3">
+          <div class="flex items-start mb-4 md:items-center sm:mb-6 gap-3">
             <HeartButton :movie="movieStore.currentMovie" />
             <h1 class="text-3xl sm:text-4xl font-bold">
               {{ movieStore.currentMovie.title }}
@@ -78,8 +88,8 @@ onMounted(() => {
             </p>
           </div>
 
-          <div class="mt-20">
-            <Button class="py-4 px-8">
+          <div v-if="movieStore.currentMovie.videos.results.length !== 0" class="mt-8 md:mt-20">
+            <Button @click="openModal" class="py-4 px-8 w-full md:w-fit">
               <template #icon>
                 <PlayIcon />
               </template>
@@ -93,20 +103,16 @@ onMounted(() => {
         <Title :level="3" color="white">Актеры</Title>
         <ActorSlider :actors="movieStore.currentMovie.credits.cast" class="mt-3" />
       </div>
-
-      <iframe
-        width="560"
-        height="315"
-        src="https://www.youtube.com/embed/pKZhNcVLCjY"
-        title="YouTube video player"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allowfullscreen
-      ></iframe>
     </div>
 
     <div v-else class="text-white text-center text-xl">Фильм не найден.</div>
+
+    <TrailerModal
+      v-if="movieStore.currentMovie"
+      @close="closeModal"
+      :isOpen="isOpen"
+      :trailers="movieStore.currentMovie.videos.results"
+    />
   </div>
 </template>
 
