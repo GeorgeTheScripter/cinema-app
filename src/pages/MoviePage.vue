@@ -6,6 +6,8 @@ import { useMovieStore } from '@/stores/movie.store';
 import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import ActorSlider from '@/components/layout/slider/ui/ActorSlider.vue';
+import Button from '@/components/ui/Button.vue';
+import PlayIcon from '@/components/ui/PlayIcon.vue';
 
 const movieStore = useMovieStore();
 
@@ -75,14 +77,33 @@ onMounted(() => {
               }}</span>
             </p>
           </div>
+
+          <div class="mt-20">
+            <Button class="py-4 px-8">
+              <template #icon>
+                <PlayIcon />
+              </template>
+              Смотреть
+            </Button>
+          </div>
         </div>
       </div>
 
       <div class="mt-16">
         <Title :level="3" color="white">Актеры</Title>
-
         <ActorSlider :actors="movieStore.currentMovie.credits.cast" class="mt-3" />
       </div>
+
+      <iframe
+        width="560"
+        height="315"
+        src="https://www.youtube.com/embed/pKZhNcVLCjY"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+      ></iframe>
     </div>
 
     <div v-else class="text-white text-center text-xl">Фильм не найден.</div>

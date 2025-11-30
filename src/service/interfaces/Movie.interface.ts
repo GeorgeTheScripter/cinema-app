@@ -1,5 +1,6 @@
 import type { Actor } from './Actor.interface';
 import type { Genre } from './Genre.interface';
+import type { Video } from './Video.interface';
 
 export interface Movie {
   id: number;
@@ -13,5 +14,8 @@ export interface Movie {
   genres: Genre[];
   credits: {
     cast: Actor[];
+  };
+  videos: {
+    results: Video[];
   };
 }
