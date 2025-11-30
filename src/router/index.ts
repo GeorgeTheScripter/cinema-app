@@ -4,6 +4,8 @@ import { getAuth } from 'firebase/auth';
 import { onAuthStateChanged } from 'firebase/auth/cordova';
 
 const router = createRouter({
+  linkActiveClass: 'text-blue-200',
+  linkExactActiveClass: 'text-blue-400',
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: routes,
 });
