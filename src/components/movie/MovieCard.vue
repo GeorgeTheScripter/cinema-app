@@ -12,7 +12,7 @@ const { movie } = defineProps<{
   <div
     class="group relative w-full h-fit rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 bg-gray-800"
   >
-    <div class="relative w-full h-72 lg:h-96">
+    <div class="relative w-full h-auto lg:h-auto">
       <img
         :src="getImageUrl(movie.poster_path)"
         :alt="movie.title || 'Movie poster'"

@@ -16,7 +16,7 @@ const handleInput = (event: Event) => {
 </script>
 
 <template>
-  <div class="relative w-full max-w-sm">
+  <div class="relative w-full">
     <input
       @input="handleInput"
       type="text"
