@@ -34,11 +34,13 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <Header />
-  <div>
-    <RouterView></RouterView>
+  <div class="min-h-screen flex flex-col">
+    <Header class="shrink-0" />
+    <div class="grow">
+      <RouterView></RouterView>
+    </div>
+    <Footer class="shrink-0" />
   </div>
-  <Footer />
 </template>
 
 <style scoped>
