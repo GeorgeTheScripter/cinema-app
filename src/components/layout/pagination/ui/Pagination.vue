@@ -49,7 +49,7 @@ const handleNext = () => {
     <div class="flex gap-1 w-fit m-auto mt-16">
       <Button class="text-white" @click="handlePrev"><</Button>
       <div
-        class="flex items-center justify-center w-14 h-14 cursor-pointer rounded hover:bg-blue-300"
+        class="flex items-center justify-center w-10 h-10 cursor-pointer rounded hover:bg-blue-300 sm:w-14 sm:h-14"
         :class="{
           'bg-blue-500 text-white': page === searchStore.currentPage,
           'bg-white text-black': page !== searchStore.currentPage,
