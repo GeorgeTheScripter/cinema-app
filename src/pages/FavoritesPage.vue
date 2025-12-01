@@ -8,7 +8,7 @@ const favoritesStore = useFavoriteStore();
 
 <template>
   <div
-    class="pt-[100px] max-w-7xl mx-auto grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+    class="pt-[100px] max-w-7xl mx-auto grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 px-4 sm:px-6 lg:px-8"
   >
     <RouterLink
       v-for="movie in favoritesStore.favorites"
