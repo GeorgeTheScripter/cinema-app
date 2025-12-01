@@ -4,10 +4,14 @@ import { ref } from 'vue';
 import MovieCard from '@/components/movie/MovieCard.vue';
 import type { Movie } from '@/service';
 import { RouterLink } from 'vue-router';
+import { useMovieStore } from '@/stores/movie.store';
+import { MovieCardSkeleton } from '../../skeleton';
 
 const { movies } = defineProps<{
   movies: Movie[];
 }>();
+
+const movieStore = useMovieStore();
 
 const swiperInstance = ref<any>(null);
 
@@ -51,11 +55,19 @@ const onSlideChange = () => {};
       @swiper="onSwiper"
       @slideChange="onSlideChange"
     >
-      <swiper-slide v-for="movie in movies" :key="movie.id">
-        <RouterLink :to="{ name: 'movie', params: { id: movie.id } }">
-          <MovieCard :movie="movie" />
-        </RouterLink>
-      </swiper-slide>
+      <template v-if="movieStore.loading">
+        <swiper-slide v-for="movie in 10" :key="movie">
+          <MovieCardSkeleton class="w-full" />
+        </swiper-slide>
+      </template>
+
+      <template v-else>
+        <swiper-slide v-for="movie in movies" :key="movie.id">
+          <RouterLink :to="{ name: 'movie', params: { id: movie.id } }">
+            <MovieCard :movie="movie" />
+          </RouterLink>
+        </swiper-slide>
+      </template>
     </swiper>
   </div>
 </template>

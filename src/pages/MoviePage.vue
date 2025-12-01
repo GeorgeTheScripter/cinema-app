@@ -9,6 +9,8 @@ import ActorSlider from '@/components/layout/slider/ui/ActorSlider.vue';
 import Button from '@/components/ui/Button.vue';
 import PlayIcon from '@/components/ui/PlayIcon.vue';
 import { TrailerModal } from '@/components/layout/modal';
+import { MoviePageSkeleton } from '@/components/layout/skeleton';
+import MovieInfo from '@/components/movie/MovieInfo.vue';
 
 const movieStore = useMovieStore();
 
@@ -39,7 +41,8 @@ const closeModal = () => {
 
 <template>
   <div class="pt-[120px] px-4 sm:px-6 lg:px-8">
-    <div v-if="movieStore.loading" class="text-white text-center text-xl">Загрузка...</div>
+    <MoviePageSkeleton v-if="movieStore.loading" class="text-white text-center text-xl" />
+
     <div v-else-if="movieStore.error" class="text-red-500 text-center text-xl">
       {{ movieStore.error }}
     </div>
@@ -64,29 +67,7 @@ const closeModal = () => {
             {{ movieStore.currentMovie.overview }}
           </p>
 
-          <div class="space-y-3 text-sm sm:text-base">
-            <p>
-              <strong class="text-gray-400">Жанр:</strong>
-              <span
-                class="ml-2 text-white font-bold"
-                v-for="genre in movieStore.currentMovie.genres"
-                :key="genre.id"
-                >{{ genre.name }}</span
-              >
-            </p>
-            <p>
-              <strong class="text-gray-400">Год выпуска:</strong>
-              <span class="ml-2 font-bold">{{
-                new Date(movieStore.currentMovie.release_date).getFullYear()
-              }}</span>
-            </p>
-            <p>
-              <strong class="text-gray-400">Рейтинг:</strong>
-              <span class="ml-2 text-yellow-400 font-bold">{{
-                movieStore.currentMovie.vote_average.toFixed(1)
-              }}</span>
-            </p>
-          </div>
+          <MovieInfo :movie="movieStore.currentMovie" />
 
           <div v-if="movieStore.currentMovie.videos.results.length !== 0" class="mt-8 md:mt-20">
             <Button @click="openModal" class="py-4 px-8 w-full md:w-fit">
