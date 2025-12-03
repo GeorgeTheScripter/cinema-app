@@ -1,6 +1,6 @@
 import { tmdbClient } from './client';
 
-import type { Filters, Genre, MoviesResponse, Period } from '..';
+import type { Actor, Filters, Genre, MoviesResponse, Period } from '..';
 
 export const movieService = {
   // Поиск
@@ -127,5 +127,9 @@ export const movieService = {
         sort_by: 'vote_average.desc',
       },
     });
+  },
+
+  getPersonById(personId: number) {
+    return tmdbClient.get<Actor>(`person/${personId}`);
   },
 };
